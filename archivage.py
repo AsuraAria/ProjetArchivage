@@ -6,8 +6,8 @@ import inquirer
 import shutil
 
 outputPath = "/home/ubuntuvm/Desktop/ProjetArchivage/output/log"
-args = '-o ' + outputPath + ' -l 0 -r -p -k -E -nv --restrict-file-names=unix -e robots=off'
-directoryPath = "/home/ubuntuvm/Desktop/ProjetArchivage/output"
+args = '-o ' + outputPath + ' -l 0 -S -r -p -k -E -nv --restrict-file-names=unix -e robots=off'
+directoryPath = "/var/www/"
 
 
 def setDirectoryPath():

@@ -3,7 +3,7 @@ import codecs
 #pip install inquirer
 import inquirer
 
-path = "/home/ubuntuvm/Desktop/ProjetArchivage/output"
+path = "/var/www/output"
 
 def recodefile():
 

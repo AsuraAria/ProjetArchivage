@@ -1,5 +1,8 @@
 ProjetArchivage
 
+Utiliser la commande suivante pour ne pas avoir de problèmes d'imports:
+sudo -E python3 main.py
+
 Pour faire fonctionner:
 -dans main.py:
     aucune modification à faire

@@ -10,7 +10,7 @@ questions = [
             inquirer.List(
                         'answer',
                         message="Que voulez-vous faire?",
-                        choices=["Archivage","Reencodage"],
+                        choices=["Archivage","Reencodage","Config Apache"],
                         ),
             ]
 choice = inquirer.prompt(questions)["answer"]
@@ -22,3 +22,5 @@ if(choice == 'Archivage'):
         print("Une erreur est subvenue.")
 elif(choice == 'Reencodage'):
     reencoding.recodefile()
+elif(choice == 'Config Apache'):
+    import apache
