@@ -1,20 +1,4 @@
 import subprocess
-import os
-#pip install inquirer
-import inquirer
-#dev utilities
-import shutil
-
-outputPath = "/home/ubuntuvm/Desktop/ProjetArchivage/output/log"
-args = '-o ' + outputPath + ' -l 0 -S -r -p -k -E -nv --restrict-file-names=unix -e robots=off'
-directoryPath = "/var/www/"
-
-
-def setDirectoryPath():
-    return input('Veuillez renseigner l\'adresse de destiation:\n')
-
-def setURL():
-    return input('Veuillez renseigner l\'adresse URL pour l\'extraction:\n')
     
 def runWGET (args, url, directoryPath):
 
@@ -48,66 +32,35 @@ def runWGET (args, url, directoryPath):
     '''
 
     fullCommand = "wget " + args + " " + url + " -P " + directoryPath
+    print(fullCommand)
     subprocess.call(fullCommand, shell=True)
 
-def run():
+def run(cible, directoryPath, logOutputFolder):
+    #-cible(s) -output -logOutput
+    
+    args = ' -l 0 -S -r -p -k -E --restrict-file-names=unix -e robots=off'
 
-    questions = [
-                inquirer.List(
-                                'answer',
-                                message="Que sera la cible du wget?",
-                                choices=['Test', 'Liste', 'Autre', "Quitter"],
-                            ),
-                ]
-    choice = inquirer.prompt(questions)["answer"]
-    print(choice)    
+    # if log asked
+    if (logOutputFolder):
+        args = '-nv -o ' + logOutputFolder + "log.txt" + args
 
-    if(choice == 'Test'):
+    # test sur site personel
+    if(cible == 'Test'):
+        runWGET(args, "https://asuraaria.github.io/", directoryPath)
 
-        # test sur site personel
+    # for single url
+    #elif(cible.startswith("www") or cible.startwith("http")):
+        #runWGET(args, cible, directoryPath)
 
-        url ="https://asuraaria.github.io/"
-        runWGET(args, url, directoryPath)
-
-    elif(choice == 'Liste'):
-
-        runThroughURL()
-
-    elif(choice == 'Autre'):
-
-        url = setDirectoryPath()
-        runWGET(args, url, directoryPath)
-
-    elif(choice == 'Quitter'):
-        return
-
+    # for url list
     else:
-        print('Erreur : le choix problématique est ' + choice)
-        return "ERREUR"
+        runThroughURL(cible, args, directoryPath)
 
     print("wget réussi (probablement).\nVeuillez vérifier si les pages sont bien encodées.\nDans le cas contraire pensez à utiliser le script reencoding.py")    
 
-def prerun():
-
-    try:
-        shutil.rmtree(directoryPath)
-    except OSError:
-        print ("Suppresion of the directory %s failed" % directoryPath)
-    else:
-        print ("Successfully deleted the directory %s " % directoryPath)
-
-    input("Press Enter to continue")    
-        
-    try:
-        os.mkdir(directoryPath)
-    except OSError:
-        print ("Creation of the directory %s failed" % directoryPath)
-    else:
-        print ("Successfully created the directory %s " % directoryPath)
-
-def runThroughURL():
+def runThroughURL(cible, args, directoryPath):
    
-    with open("urlList.txt") as fp:
+    with open(cible) as fp:
         for line in fp:
             url = line.strip()
             #chech if url not starting by # nor empty

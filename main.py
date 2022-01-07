@@ -1,26 +1,36 @@
 #pip install inquirer
-import inquirer
-
+import sys
 
 #local import
 import archivage
 import reencoding
 
-questions = [
-            inquirer.List(
-                        'answer',
-                        message="Que voulez-vous faire?",
-                        choices=["Archivage","Reencodage","Config Apache"],
-                        ),
-            ]
-choice = inquirer.prompt(questions)["answer"]
+argvmode = sys.argv[1]
+#Pour archivage:
+    # python3 main.py -archivage -cible(s) -output -logOutput
+#Pour rencodage:
+    # python3 main.py -reencodage -cible
 
-print(choice)
+if(argvmode == 'archivage'):
+    if(len(sys.argv)==5):
+        archivage.run(sys.argv[2],sys.argv[3],sys.argv[4])
+    if(len(sys.argv)==4):
+        archivage.run(sys.argv[2],sys.argv[3], None)    
 
-if(choice == 'Archivage'):
-    if (archivage.run()=="ERREUR"):
-        print("Une erreur est subvenue.")
-elif(choice == 'Reencodage'):
-    reencoding.recodefile()
-elif(choice == 'Config Apache'):
+elif(argvmode == 'reencodage'):
+    reencoding.recodefile(sys.argv[2])
+
+
+#TODO
+elif(argvmode == 'Config Apache'):
     import apache
+
+import argparse
+
+parser=argparse.ArgumentParser(
+    description='''Ceci est l'aide pour l'achivage Wev :). ''',
+    epilog="""WIP.""")
+parser.add_argument('--archivage --cible(s) -output -logOutput')
+parser.add_argument('--archivage --cible(s) -output')
+#parser.add_argument('bar', nargs='*', default=[1, 2, 3], help='BAR!')
+args=parser.parse_args()    
