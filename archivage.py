@@ -19,6 +19,7 @@ def runWGET (args, url, directoryPath):
         -restrict-file-names=OS : may be useful if you want to copy the files to a PC running with OS.        
         -e robots=off  : disable robot.txt restriction
         -F : When input is read from a file, force it to be treated as an HTML file.
+        -S : Less encoding issues
 
         -P : output directory        
 
@@ -37,8 +38,9 @@ def runWGET (args, url, directoryPath):
 
 def run(cible, directoryPath, logOutputFolder):
     #-cible(s) -output -logOutput
+    strag = str(cible)
     
-    args = ' -l 0 -S -r -p -k -E --restrict-file-names=unix -e robots=off'
+    args = ' -l 0 -S -r -p -k -E -S --restrict-file-names=unix -e robots=off'
 
     # if log asked
     if (logOutputFolder):
@@ -48,9 +50,9 @@ def run(cible, directoryPath, logOutputFolder):
     if(cible == 'Test'):
         runWGET(args, "https://asuraaria.github.io/", directoryPath)
 
-    # for single url
-    #elif(cible.startswith("www") or cible.startwith("http")):
-        #runWGET(args, cible, directoryPath)
+    # for single url    
+    elif(cible.startswith("www") or cible.startswith("http")):
+        runWGET(args, cible, directoryPath)
 
     # for url list
     else:
