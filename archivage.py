@@ -1,4 +1,6 @@
 import subprocess
+import datetime
+import re
     
 def runWGET (args, url, directoryPath):
 
@@ -44,7 +46,10 @@ def run(cible, directoryPath, logOutputFolder):
 
     # if log asked
     if (logOutputFolder):
-        args = '-nv -o ' + logOutputFolder + "log.txt" + args
+
+        truetime = str(datetime.datetime.now())
+        time = re.sub(r"\D", "_", truetime.split(".")[0])
+        args = '-nv -o ' + logOutputFolder + "log" + time + ".txt" + args
 
     # test sur site personel
     if(cible == 'Test'):
@@ -56,15 +61,15 @@ def run(cible, directoryPath, logOutputFolder):
 
     # for url list
     else:
-        runThroughURL(cible, args, directoryPath)
+        runThroughURL(cible, directoryPath, logOutputFolder)
 
     print("wget réussi (probablement).\nVeuillez vérifier si les pages sont bien encodées.\nDans le cas contraire pensez à utiliser le script reencoding.py")    
 
-def runThroughURL(cible, args, directoryPath):
+def runThroughURL(cible, directoryPath, logOutputFolder):
    
     with open(cible) as fp:
         for line in fp:
             url = line.strip()
             #chech if url not starting by # nor empty
             if (not url.startswith('#') and url):
-                runWGET(args, url, directoryPath)
+                run(url,directoryPath, logOutputFolder)

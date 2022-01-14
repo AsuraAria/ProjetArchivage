@@ -1,0 +1,15 @@
+V1.1.1
+
+- corrections des logs:
+    -les logs sont désormais nommés avec la date
+    -l'utilisation d'une liste d'url donne bien de multiple logs et non plus un unique fichier contenant uniquement les logs du dernier site concerné
+
+V1.1
+- les appels utilisant le mode "archivage" sont fonctionnels:
+    -en utilisant Test
+    -en utilisant une url
+    -en utilisant un fichier liste d'url
+
+- le mode "reencodage" n'a pas encore été porté sur la version 1.X par manque de pertinence immédiate
+
+- un appel de main.py avec l'argument -h ou-help permet d'obtenir une aide dans le terminal
