@@ -1,3 +1,4 @@
+from pathlib import Path
 import subprocess
 import datetime
 import re
@@ -39,14 +40,19 @@ def runWGET (args, url, directoryPath):
     subprocess.call(fullCommand, shell=True)
 
 def run(cible, directoryPath, logOutputFolder):
-    #-cible(s) -output -logOutput
-    strag = str(cible)
-    
+
+    #Vérification de l'existance du dossier, sinion création
+    Path(directoryPath).mkdir(parents=True, exist_ok=True)    
+
     args = ' -l 0 -S -r -p -k -E -S --restrict-file-names=unix -e robots=off'
 
     # if log asked
     if (logOutputFolder):
 
+        #Vérification de l'existance du dossier, sinion création
+        Path(logOutputFolder).mkdir(parents=True, exist_ok=True)            
+
+        #nommage du log
         truetime = str(datetime.datetime.now())
         time = re.sub(r"\D", "_", truetime.split(".")[0])
         args = '-nv -o ' + logOutputFolder + "log" + time + ".txt" + args
