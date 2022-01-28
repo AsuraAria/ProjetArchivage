@@ -2,6 +2,8 @@ from pathlib import Path
 import subprocess
 import datetime
 import re
+
+import customError
     
 def runWGET (args, url, directoryPath):
 
@@ -35,47 +37,44 @@ def runWGET (args, url, directoryPath):
     - directoryPath : output directory
     '''
 
-    fullCommand = "wget " + args + " " + url + " -P " + directoryPath
+    fullCommand = 'wget ' + args + ' ' + url + ' -P ' + directoryPath
     print(fullCommand)
-    subprocess.call(fullCommand, shell=True)
+    customError.commandeShellOuFinAvecCaptureStdout(fullCommand, '')
+    print('\033[94m' + 'Fin de la récupération du site:\n' + url + '\033[0m')
 
 def run(cible, directoryPath, logOutputFolder):
 
-    #Vérification de l'existance du dossier, sinion création
+    # Vérification de l'existance du dossier, sinon création
     Path(directoryPath).mkdir(parents=True, exist_ok=True)    
 
     args = ' -l 0 -S -r -p -k -E -S --restrict-file-names=unix -e robots=off'
 
-    # if log asked
+    # Si l'option de log a été demandé
     if (logOutputFolder):
 
-        #Vérification de l'existance du dossier, sinion création
+        # Vérification de l'existance du dossier, sinon création
         Path(logOutputFolder).mkdir(parents=True, exist_ok=True)            
 
-        #nommage du log
+        # Nommage du log
         truetime = str(datetime.datetime.now())
-        time = re.sub(r"\D", "_", truetime.split(".")[0])
-        args = '-nv -o ' + logOutputFolder + "log" + time + ".txt" + args
+        time = re.sub(r'\D', '_', truetime.split('.')[0])
+        args = ' -o ' + logOutputFolder + 'log' + time + '.txt' + args
 
-    # test sur site personel
-    if(cible == 'Test'):
-        runWGET(args, "https://asuraaria.github.io/", directoryPath)
-
-    # for single url    
-    elif(cible.startswith("www") or cible.startswith("http")):
+    # Pour une url    
+    if(cible.startswith('www') or cible.startswith('http')):
         runWGET(args, cible, directoryPath)
 
-    # for url list
+    # Pour une liste d'url
     else:
         runThroughURL(cible, directoryPath, logOutputFolder)
 
-    print("wget réussi (probablement).\nVeuillez vérifier si les pages sont bien encodées.\nDans le cas contraire pensez à utiliser le script reencoding.py")    
+
 
 def runThroughURL(cible, directoryPath, logOutputFolder):
    
     with open(cible) as fp:
         for line in fp:
             url = line.strip()
-            #chech if url not starting by # nor empty
+            # Pour chaque url ne commencent pas par un vide ou un #
             if (not url.startswith('#') and url):
                 run(url,directoryPath, logOutputFolder)

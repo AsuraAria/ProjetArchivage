@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import argparse
 
 # Import locaux
@@ -9,10 +12,10 @@ import archivage
 def archivageMode(cible, destination, log):
 
     if ((cible is None) or (cible == 'arg_was_not_given')):
-        print("Cible manquante")
+        print('Cible manquante')
     else:
         if ((destination is None) or (destination == 'arg_was_not_given')):
-            print("Dossier de destination manquant")
+            print('Dossier de destination manquant')
         else:
             if log == 'arg_was_not_given':
                 print(
@@ -22,12 +25,12 @@ def archivageMode(cible, destination, log):
                 archivage.run(cible, destination, log)
 
 
-def mode2(test):
-    print("mode2")
+def mode2():
+    print('mode2')
 
 
 def mode3():
-    print("mode3")
+    print('mode3')
 
 
 # Gestion des options
@@ -64,11 +67,13 @@ args = parser.parse_args()
 
 # Run
 
-if (args.mode == "archivage"):
+if (args.mode == 'archivage'):
     archivageMode(args.cible, args.destination, args.log)
-elif (args.mode == "mode2"):
+elif (args.mode == 'mode2'):
+    # mode modification
     mode2()
-elif (args.mode == "mode3"):
+elif (args.mode == 'mode3'):
+    # mode paramètrage Apache
     mode3()
 else:
-    print("la spécificité de l'argument -m n'a pas été reconnu")
+    print('la spécificité de l\'argument -m n\'a pas été reconnu')
