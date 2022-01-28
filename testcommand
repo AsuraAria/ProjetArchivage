@@ -1,2 +1,1 @@
-python3 main.py -archivage Test ~/Desktop/ProjetArchivage/download/ ~/Desktop/ProjetArchivage/log/
-python3 main.py -archivage https://asuraaria.github.io/ ~/Desktop/ProjetArchivage/download/ ~/Desktop/ProjetArchivage/log/
+python3 main.py -m archivage -l \~/Desktop/ProjetArchivage/log/ -c Test -d ~/Desktop/ProjetArchivage/download/

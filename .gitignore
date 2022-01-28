@@ -128,3 +128,7 @@ output/
 test
 
 urlList.txt
+
+log/
+download/
+.vscode/

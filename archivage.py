@@ -21,15 +21,15 @@ def runWGET (args, url, directoryPath):
         -l 0 : the maximum level of recursion. WARNING 0 is no limit, might take a reeeaaaly long time.
         -restrict-file-names=OS : may be useful if you want to copy the files to a PC running with OS.        
         -e robots=off  : disable robot.txt restriction
-        -F : When input is read from a file, force it to be treated as an HTML file.
         -S : Less encoding issues
 
         -P : output directory        
 
         --trust-server-names : (Useless?)
         -N : (REMOVE as renaming prevent it) Turn on time-stamping. Prevent duplication of already downloaded files (if up-to-date)        
-        -nH : (REMOVED) By default, wget put files in a directory named after the site's hostname. This will disabled creating of those hostname directories and put everything in the current directory.
+        -nH : (REMOVED) by default, wget put files in a directory named after the site's hostname. This will disabled creating of those hostname directories and put everything in the current directory.
         -K : (REMOVED) keep an original versions of files without the conversions made by wget
+        -F : (REMOVED) when input is read from a file, force it to be treated as an HTML file.        
 
     - url : url target of wget
     - directoryPath : output directory

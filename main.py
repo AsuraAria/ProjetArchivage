@@ -1,49 +1,74 @@
 import argparse
-import sys
 
-# local import
+# Import locaux
 import archivage
-import reencoding
 
-argvmode = sys.argv[1]
-# Pour archivage:
-# python3 main.py -archivage "url" -output "cheminverslelog"
-# python3 main.py -archivage "cheminverslefichiertxt" -output "cheminverslelog"
-# -output
-# Pour rencodage:
-# python3 main.py -reencodage -cible
-
-if argvmode == "-archivage":
-    if len(sys.argv) == 5:
-        archivage.run(sys.argv[2], sys.argv[3], sys.argv[4])
-    if len(sys.argv) == 4:
-        archivage.run(sys.argv[2], sys.argv[3], None)
-
-elif argvmode == "-reencodage":
-    reencoding.recodefile(sys.argv[2])
+# Modes de fonctionnement
 
 
-elif argvmode == "-h" or argvmode == "-help":
-    help =  """
-usage: python3 main.py [mode] [option] 
+def archivageMode(cible, destination, log):
 
-[mode]:
--archivage: ce mode utilise wget pour télécharger un ou plusieurs sites
-    usage: python3 main.py -archivage [cible(s)] [output] [option] 
-    [cible(s)]:
-        Test: utilise le site test suivant https://asuraaria.github.io/
-        \"url\": applique l'archivage pour l'url donnée
-        \"cheminversfichier\": permet de prendre en compte l'ensemble des lignes d'un ficher avec les règles suivantes:
-            -une ligne commencent par un espace est ignorée
-            -une ligne commencent par un # est ignorée
-    [option]:
-        -output "dossierDeDestination": wget devient non-verbeux dans la console et à la place sauvegarde les logs de progressions dans le dossier de destination
-    ex :  python3 main.py -archivage Test ~/Desktop/ProjetArchivage/download/ ~/Desktop/ProjetArchivage/log/
+    if ((cible is None) or (cible == 'arg_was_not_given')):
+        print("Cible manquante")
+    else:
+        if ((destination is None) or (destination == 'arg_was_not_given')):
+            print("Dossier de destination manquant")
+        else:
+            if log == 'arg_was_not_given':
+                print(
+                    'Option de logs spécifié mais chemin de destination manquant'
+                )
+            else:
+                archivage.run(cible, destination, log)
 
--reencodage: ce mode permet de modifier de manière récursive des dossiers de sites locaux (WIP)
-    usage: python3 main.py -reencodage [cible(s)]     
-    [cible(s)]:
-        \"cheminversdossier\": détermine le dossier à modifier
-"""
 
-    print(help)
+def mode2(test):
+    print("mode2")
+
+
+def mode3():
+    print("mode3")
+
+
+# Gestion des options
+
+parser = argparse.ArgumentParser(description='Travail d\'archivage.')
+
+parser.add_argument('-m',
+                    '--mode',
+                    nargs='?',
+                    const='arg_was_not_given',
+                    help='le mode utilisé')
+parser.add_argument('-l',
+                    '--log',
+                    nargs='?',
+                    const='arg_was_not_given',
+                    help='dossier de destination des logs, optionel')
+parser.add_argument('-c',
+                    '--cible',
+                    nargs='?',
+                    const='arg_was_not_given',
+                    help='url ou chemin vers un fichier contenant les urls')
+parser.add_argument('-d',
+                    '--destination',
+                    nargs='?',
+                    const='arg_was_not_given',
+                    help='chemin du dossier d\'extraction des cibles')
+
+parser.add_argument('-a',
+                    '--addarg',
+                    nargs='+',
+                    help='arguments supplémentaire pour le mode')
+
+args = parser.parse_args()
+
+# Run
+
+if (args.mode == "archivage"):
+    archivageMode(args.cible, args.destination, args.log)
+elif (args.mode == "mode2"):
+    mode2()
+elif (args.mode == "mode3"):
+    mode3()
+else:
+    print("la spécificité de l'argument -m n'a pas été reconnu")
